@@ -15,7 +15,7 @@ export default function Home() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8080/todos")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/todos`)
       .then((res) => res.json())
       .then((data) => setTodos(data))
       .catch(() => setError("No se pudo conectar con el servidor."))
@@ -26,7 +26,7 @@ export default function Home() {
     e.preventDefault();
     if (!title.trim()) return;
 
-    const res = await fetch("http://localhost:8080/todos", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todos`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title }),
@@ -38,12 +38,12 @@ export default function Home() {
   }
 
   async function handleDelete(id: number) {
-    await fetch(`http://localhost:8080/todos/${id}`, { method: "DELETE" });
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todos/${id}`, { method: "DELETE" });
     setTodos((prev) => prev.filter((t) => t.id !== id));
   }
 
   async function handleComplete(id: number) {
-    const res = await fetch(`http://localhost:8080/todos/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todos/${id}`, {
       method: "PATCH",
     });
 
